@@ -25,4 +25,20 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(response);
     }
+
+    @ExceptionHandler(DuplicateUpcException.class)
+    public ResponseEntity<ErrorResponse> handleDuplicateUpc(
+            DuplicateUpcException ex) {
+
+        ErrorResponse response =
+                ErrorResponse.builder()
+                        .success(false)
+                        .errorCode("DUPLICATE_UPC")
+                        .message(ex.getMessage())
+                        .timestamp(LocalDateTime.now())
+                        .build();
+
+        return ResponseEntity.badRequest()
+                .body(response);
+    }
 }
