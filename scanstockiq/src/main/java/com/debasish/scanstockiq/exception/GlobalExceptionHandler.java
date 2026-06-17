@@ -41,4 +41,20 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest()
                 .body(response);
     }
+
+    @ExceptionHandler(InvalidBarcodeException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidBarcode(
+            InvalidBarcodeException ex) {
+
+        ErrorResponse response =
+                ErrorResponse.builder()
+                        .success(false)
+                        .errorCode("INVALID_BARCODE")
+                        .message(ex.getMessage())
+                        .timestamp(LocalDateTime.now())
+                        .build();
+
+        return ResponseEntity.badRequest()
+                .body(response);
+    }
 }
