@@ -24,9 +24,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponse createProduct(ProductRequest request) {
 
-        BarcodeValidationUtil.validate(request.getUpcCode());
+        BarcodeValidationUtil.validate(
+                request.getUpcCode());
 
-        if(productRepository.existsByUpcCode(
+        if (productRepository.existsByUpcCode(
                 request.getUpcCode())) {
 
             throw new DuplicateUpcException(
@@ -46,28 +47,53 @@ public class ProductServiceImpl implements ProductService {
         product.setReorderLevel(request.getReorderLevel());
         product.setStatus(ProductStatus.ACTIVE);
 
-        return ProductMapper.toResponse(
-                productRepository.save(product));
+        product = productRepository.save(product);
+
+        return ProductMapper.toResponse(product);
     }
 
     @Override
     public ProductResponse getProduct(Long id) {
-        return null;
+
+        Product product =
+                productRepository.findById(id)
+                        .orElseThrow(() ->
+                                new ProductNotFoundException(
+                                        "Product not found"));
+
+        return ProductMapper.toResponse(product);
     }
 
     @Override
     public ProductResponse getProductByUpc(String upcCode) {
-        return null;
+
+        Product product =
+                productRepository.findByUpcCode(upcCode)
+                        .orElseThrow(() ->
+                                new ProductNotFoundException(
+                                        "Product not found"));
+
+        return ProductMapper.toResponse(product);
     }
 
     @Override
     public List<ProductResponse> getAllProducts() {
-        return List.of();
+
+        return productRepository.findAll()
+                .stream()
+                .map(ProductMapper::toResponse)
+                .toList();
     }
 
     @Override
     public void deleteProduct(Long id) {
 
-    }
+        Product product =
+                productRepository.findById(id)
+                        .orElseThrow(() ->
+                                new ProductNotFoundException(
+                                        "Product not found"));
 
+        productRepository.delete(product);
+    }
 }
