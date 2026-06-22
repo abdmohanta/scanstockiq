@@ -85,4 +85,34 @@ public class InventoryServiceImpl implements InventoryService {
         );
     }
 
+    @Override
+    public List<InventoryHistoryResponse> getInventoryHistory(
+            String upcCode) {
+
+        Product product = getProduct(upcCode);
+
+        return inventoryTransactionRepository
+                .findByProductOrderByCreatedAtDesc(product)
+                .stream()
+                .map(transaction ->
+                        InventoryHistoryResponse.builder()
+                                .transactionId(transaction.getId())
+                                .productName(product.getProductName())
+                                .upcCode(product.getUpcCode())
+                                .transactionType(
+                                        transaction.getTransactionType())
+                                .quantity(
+                                        transaction.getQuantity())
+                                .stockBefore(
+                                        transaction.getStockBefore())
+                                .stockAfter(
+                                        transaction.getStockAfter())
+                                .remarks(
+                                        transaction.getRemarks())
+                                .createdAt(
+                                        transaction.getCreatedAt())
+                                .build())
+                .toList();
+    }
+
 }
