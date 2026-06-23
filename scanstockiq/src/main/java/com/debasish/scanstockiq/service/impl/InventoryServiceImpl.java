@@ -128,7 +128,7 @@ public class InventoryServiceImpl implements InventoryService {
         if (after == 0) {
             product.setStatus(ProductStatus.OUT_OF_STOCK);
         } else {
-            product.setStatus(ProductStatus.AVAILABLE);
+            product.setStatus(ProductStatus.ACTIVE);
         }
 
         productRepository.save(product);
@@ -144,7 +144,7 @@ public class InventoryServiceImpl implements InventoryService {
         int after = before + request.getQuantity();
 
         product.setCurrentStock(after);
-        product.setStatus(ProductStatus.AVAILABLE);
+        product.setStatus(ProductStatus.ACTIVE);
 
         productRepository.save(product);
 
@@ -161,7 +161,6 @@ public class InventoryServiceImpl implements InventoryService {
         saveTransaction(product, InventoryTransactionType.RETURN, request.getQuantity(), before, after, request.getRemarks());
     }
 
-    @Override
     public List<InventoryHistoryResponse> getInventoryHistory(
             String upcCode) {
 
