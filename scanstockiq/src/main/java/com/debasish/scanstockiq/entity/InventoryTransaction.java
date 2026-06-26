@@ -32,4 +32,8 @@ public class InventoryTransaction {
     private String remarks;
 
     private LocalDateTime transactionDate;
+
+    public LocalDateTime getCreatedAt() {
+        return null;
+    }
 }
