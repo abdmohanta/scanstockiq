@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface InventoryTransactionRepository extends JpaRepository<InventoryTransaction, Long> {
 
-	// find transactions for a product ordered by transaction date desc
+	List<InventoryTransaction> findByProductOrderByCreatedAtDesc(Product product);
 	List<InventoryTransaction> findByProductOrderByTransactionDateDesc(Product product);
 
 }
