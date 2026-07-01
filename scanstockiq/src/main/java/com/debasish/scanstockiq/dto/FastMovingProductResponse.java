@@ -1,0 +1,17 @@
+package com.debasish.scanstockiq.dto;
+
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
+@Builder
+public class FastMovingProductResponse {
+
+    private Long productId;
+
+    private String productName;
+
+    private String upcCode;
+
+    private Integer totalSold;
+}
