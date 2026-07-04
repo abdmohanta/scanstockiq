@@ -1,10 +1,10 @@
 package com.debasish.scanstockiq.dto;
 
-import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
-@Builder
+@Setter
 public class FastMovingProductResponse {
 
     private Long productId;
@@ -13,5 +13,16 @@ public class FastMovingProductResponse {
 
     private String upcCode;
 
-    private Integer totalSold;
+    private Long totalSold;
+
+    public FastMovingProductResponse(Long productId,
+                                     String productName,
+                                     String upcCode,
+                                     Long totalSold) {
+
+        this.productId = productId;
+        this.productName = productName;
+        this.upcCode = upcCode;
+        this.totalSold = totalSold;
+    }
 }
