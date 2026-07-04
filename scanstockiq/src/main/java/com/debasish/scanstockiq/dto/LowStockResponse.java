@@ -1,10 +1,10 @@
 package com.debasish.scanstockiq.dto;
 
-import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
-@Builder
+@Setter
 public class LowStockResponse {
 
     private Long productId;
@@ -16,4 +16,17 @@ public class LowStockResponse {
     private Integer currentStock;
 
     private Integer reorderLevel;
+
+    public LowStockResponse(Long productId,
+                            String productName,
+                            String upcCode,
+                            Integer currentStock,
+                            Integer reorderLevel) {
+
+        this.productId = productId;
+        this.productName = productName;
+        this.upcCode = upcCode;
+        this.currentStock = currentStock;
+        this.reorderLevel = reorderLevel;
+    }
 }
