@@ -61,4 +61,36 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
        ORDER BY SUM(t.quantity) DESC
        """)
     List<FastMovingProductResponse> getFastMovingProducts();
+
+    @Query("""
+SELECT COUNT(t)
+
+FROM InventoryTransaction t
+
+WHERE t.transactionType='SALE'
+""")
+    Long totalSalesTransaction();
+
+
+    @Query("""
+SELECT COUNT(t)
+
+FROM InventoryTransaction t
+
+WHERE t.transactionType='RETURN'
+""")
+    Long totalReturnTransaction();
+
+    @Query("""
+SELECT COALESCE(SUM(t.quantity),0)
+
+FROM InventoryTransaction t
+
+WHERE t.transactionType='SALE'
+
+AND DATE(t.createdAt)=CURRENT_DATE
+""")
+    Long todaySales();
+
+
 }
