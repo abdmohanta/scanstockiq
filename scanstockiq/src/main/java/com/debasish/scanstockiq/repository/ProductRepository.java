@@ -1,8 +1,10 @@
 package com.debasish.scanstockiq.repository;
 
+import com.debasish.scanstockiq.dto.LowStockResponse;
 import com.debasish.scanstockiq.entity.Product;
 import com.debasish.scanstockiq.entity.ProductStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,4 +20,18 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     long countByStatus(ProductStatus status);
 
     List<Product> findByCurrentStockLessThanEqual(Integer stock);
+
+    @Query("""
+       SELECT new com.debasish.scanstockiq.dto.LowStockResponse(
+            p.id,
+            p.productName,
+            p.upcCode,
+            p.currentStock,
+            p.reorderLevel
+       )
+       FROM Product p
+       WHERE p.currentStock <= p.reorderLevel
+       ORDER BY p.currentStock ASC
+       """)
+    List<LowStockResponse> getLowStockProducts();
 }
