@@ -1,5 +1,6 @@
 package com.debasish.scanstockiq.repository;
 
+import com.debasish.scanstockiq.dto.FastMovingProductResponse;
 import com.debasish.scanstockiq.dto.LowStockResponse;
 import com.debasish.scanstockiq.entity.Product;
 import com.debasish.scanstockiq.entity.ProductStatus;
@@ -34,4 +35,30 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
        ORDER BY p.currentStock ASC
        """)
     List<LowStockResponse> getLowStockProducts();
+
+    @Query("""
+       SELECT new com.debasish.scanstockiq.dto.FastMovingProductResponse(
+
+            t.product.id,
+
+            t.product.productName,
+
+            t.product.upcCode,
+
+            SUM(t.quantity)
+
+       )
+
+       FROM InventoryTransaction t
+
+       WHERE t.transactionType='SALE'
+
+       GROUP BY
+            t.product.id,
+            t.product.productName,
+            t.product.upcCode
+
+       ORDER BY SUM(t.quantity) DESC
+       """)
+    List<FastMovingProductResponse> getFastMovingProducts();
 }
