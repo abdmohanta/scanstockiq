@@ -29,4 +29,8 @@ public class LowStockResponse {
         this.currentStock = currentStock;
         this.reorderLevel = reorderLevel;
     }
+
+    public static Object builder() {
+        return null;
+    }
 }

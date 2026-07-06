@@ -25,4 +25,8 @@ public class FastMovingProductResponse {
         this.upcCode = upcCode;
         this.totalSold = totalSold;
     }
+
+    public static Object builder() {
+        return null;
+    }
 }
